@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+  h1 {
+    @apply text-2xl font-medium mb-4;
+  }
+  h2 {
+    @apply text-xl;
+  }
+  label {
+    @apply block font-medium mb-2;
+  }
+  input[type='radio'] {
+    background-color: var(--form-radio-bg-color);
+    box-sizing: border-box;
+    color: var(--form-radio-checked-icon-color);
+    display: inline-block;
+    flex-shrink: 0;
+    height: 1rem;
+    margin-right: 0.25rem;
+    margin-left: 1rem;
+    margin-top: 0.5rem;
+  }
+  input[type='number'] {
+    @apply rounded-lg ml-2 p-0 border-2 border-gray-600 text-black text-center w-16 hover:bg-gray-100 overflow-hidden resize-none;
+  }
+}
