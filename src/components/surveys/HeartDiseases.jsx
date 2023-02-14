@@ -57,6 +57,8 @@ function HeartDiseases() {
 
     const [displayedMessages, setDisplayedMessages] = useState([]);
 
+    //  const sigmoid = x => (0.61) / (1 + 0.5 * Math.exp(4-x)) + 0.03;
+  const sigmoid = x => (0.94) / (1 + 0.5 * Math.exp(4-0.5*x)) + 0.06;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -65,7 +67,7 @@ function HeartDiseases() {
       BMI, Smoker, Diabetes, PhysActivity, Fruits, Veggies,
       HvyAlcoholConsump, GenHlth, MentHlth, PhysHlth, DiffWalk, Sex
     }
-    console.log(data);
+    // console.log(data);
 
       // Check if any of the fields are empty
       for (const value of Object.values(data)) {
@@ -88,22 +90,23 @@ function HeartDiseases() {
 
     setPage("suggestions");
 
-    // send data to the server or use it for machine learning model
-    fetch('http://localhost:5000/heart-diseases', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-        setRisk(data);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });  
+    // const coefficients = [0.03, 0.50871063, 0.37189953, -0.05831967, -0.01, -0.015, -0.30083456, 0.615705, -0.00955058, 0.00505893, 0.62290519, 0.68563246];
+    const coefficients = [0.075, 1.5, 0.9, -0.3831967, -0.3, -0.05, -0.30083456, 0.615705, -0.00955058, 0.00505893, 0.62290519, 0.68563246];
+    
+    // Convert the data to a numerical array
+    let numericalData = [];
+    for (const value of Object.values(data)) {
+    numericalData.push(parseFloat(value));
+    }
+
+    // Calculate the prediction using the linear regression model
+    let prediction = 0;
+    for (let i = 0; i < coefficients.length; i++) {
+    prediction += coefficients[i] * numericalData[i];
+    }
+
+    prediction = sigmoid(prediction);
+    setRisk(prediction);
     
   }
 

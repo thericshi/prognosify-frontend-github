@@ -12,8 +12,7 @@ const Footer = () => {
           <div className="w-full md:w-1/4 text-center md:text-left">
             <h2 className="text-lg font-medium">Contact Us</h2>
             <ul className="list-reset">
-              <li className="text-gray-500">Email: zyericshi@gmail.com</li>
-              <li className="text-gray-500">Phone: 647-632-0223</li>
+              <li className="text-gray-500">Email: prognosify@gmail.com</li>
             </ul>
           </div>
 </div>

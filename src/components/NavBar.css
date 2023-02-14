@@ -1,0 +1,18 @@
+.menu {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.3s ease-out;
+    }
+    
+    .menu.open {
+    height: auto;
+    }
+    
+    .close {
+    display: none;
+    transition: opacity 0.3s ease-out;
+    }
+    
+    .close.open {
+    display: block;
+    }

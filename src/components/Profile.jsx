@@ -40,15 +40,17 @@ function Profile({ handleDataSubmit}) {
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="flex mb-2">
-            <label className="block font-medium mr-2">Name:</label>
-              <input
-                className="border-2 border-gray-600 rounded-md w-64 h-6 px-3 mr-8 text-gray-700 leading-tight focus:outline-none focus:border-indigo-500"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            <label className="block font-medium">
+          <div className="flex-col mb-2">
+            <div className="flex">
+              <label className="block font-medium mr-2">Name:</label>
+                <input
+                  className="border-2 border-gray-600 rounded-md w-64 h-6 px-3 mr-8 text-gray-700 leading-tight focus:outline-none focus:border-indigo-500"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+            </div>
+            <label className="block font-medium mt-1">
               Age:
               <input
                 className="border-2 border-gray-300 rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-indigo-500"

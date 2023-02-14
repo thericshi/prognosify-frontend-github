@@ -46,11 +46,23 @@ const messages = [
 
 const [displayedMessages, setDisplayedMessages] = useState([]);
 
+const coefficients = {
+  Gender: -0.05,
+  AirPollution: -0.035,
+  AlcoholUse: 0.03,
+  DustAllergy: -0.01,
+  GeneticRisk: 0.02,
+  ChronicLungDisease: -0.025,
+  BalancedDiet: -0.017,
+  Obesity: 0.1,
+  PassiveSmoker: 0.24
+}
+
 const handleSubmit = (e) => {
 e.preventDefault();const data = {
     Gender, AirPollution, AlcoholUse, DustAllergy, GeneticRisk, ChronicLungDisease, BalancedDiet, Obesity, PassiveSmoker
   }
-  console.log(data);
+  // console.log(data);
   
     // Check if any of the fields are empty
     for (const value of Object.values(data)) {
@@ -73,22 +85,20 @@ e.preventDefault();const data = {
   setDisplayedMessages(messagesToDisplay);
   setPage("result");
 
-      // send data to the server or use it for machine learning model
-      fetch('http://localhost:5000/lung-cancer', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
-        .then(res => res.json())
-        .then(data => {
-          console.log(data);
-          setRisk(data);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        }); 
+  let riskScore = 0;
+  riskScore += (Gender * coefficients.Gender);
+  riskScore += (AirPollution * coefficients.AirPollution);
+  riskScore += (AlcoholUse * coefficients.AlcoholUse);
+  riskScore += (DustAllergy * coefficients.DustAllergy);
+  riskScore += (GeneticRisk * coefficients.GeneticRisk);
+  riskScore += (ChronicLungDisease * coefficients.ChronicLungDisease);
+  riskScore += (BalancedDiet * coefficients.BalancedDiet);
+  riskScore += (Obesity * coefficients.Obesity);
+  riskScore += (PassiveSmoker * coefficients.PassiveSmoker);
+
+  const probability = (0.4) / (1 + 10 * Math.exp(0.3-4*riskScore));
+  setRisk(probability);
+
 }
 
 return (
@@ -202,9 +212,9 @@ return (
 <div className="mb-4">
 <label className="block text-gray-700 font-medium mb-2">BMI</label>
 <div className="flex">
-<input type="radio" name="obesity" value={0} onChange={(e) => setObesity(e.target.value)} />
+<input type="radio" name="obesity" value={0.2} onChange={(e) => setObesity(e.target.value)} />
 <label className="ml-2">Below 18</label>
-<input type="radio" name="obesity" value={1} onChange={(e) => setObesity(e.target.value)} />
+<input type="radio" name="obesity" value={0} onChange={(e) => setObesity(e.target.value)} />
 <label className="ml-2">18 to 30</label>
 <input type="radio" name="obesity" value={2} onChange={(e) => setObesity(e.target.value)} />
 <label className="ml-2">Above 30</label>
@@ -234,7 +244,7 @@ return (
     <h1>Results & Suggestions</h1>
 
     <div class="container px-5 py-10 mb-3 rounded-lg bg-white shadow-md">
-          <h2 class="text-lg font-medium">Your lifetime risk of heart diseases based on your current lifestyle and conditions is 
+          <h2 class="text-lg font-medium">Your lifetime risk of lung cancer based on your current lifestyle and conditions is 
           <span style={{color: (risk*100) > 10 ? "red" : (risk*100) >=5 && (risk*100) <=10 ? "orange" : "green"}}> {" "+ (risk * 100).toFixed(1) + "%"}</span>
           </h2>
         </div>
